@@ -39,3 +39,7 @@ button, input {
 .search-form img {
     width: 30px;
 }
+
+.selected {
+    background-color: pink;
+}

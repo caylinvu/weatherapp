@@ -16,6 +16,15 @@ const humidityDisplay = document.getElementById('humidity');
 const uvDisplay = document.getElementById('uv');
 const sunriseDisplay = document.getElementById('sunrise');
 const sunsetDisplay = document.getElementById('sunset');
+const celBtn = document.getElementById('cel-btn');
+const farBtn = document.getElementById('far-btn');
+let unitType = 'far';
+let temp = '';
+let feelsLike = '';
+let wind = '';
+let vis = '';
+let mintemp = '';
+let maxtemp = '';
 
 // Fetch weather data from weather API
 async function fetchData(location) {
@@ -67,6 +76,22 @@ function getWeatherData(location) {
         })
         .then(response => {
             displayData(response);
+
+            celBtn.addEventListener('click', () => {
+                farBtn.classList.remove('selected');
+                celBtn.classList.add('selected');
+                unitType = 'cel';
+                console.log(unitType);
+                displayData(response);
+            });
+            
+            farBtn.addEventListener('click', () => {
+                celBtn.classList.remove('selected');
+                farBtn.classList.add('selected');
+                unitType = 'far';
+                console.log(unitType);
+                displayData(response);
+            });
         })
         .catch(error => {
             console.error(error)
@@ -74,19 +99,42 @@ function getWeatherData(location) {
     );
 }
 
+// let temp = '';
+// let feelsLike = '';
+// let wind = '';
+// let vis = '';
+// let mintemp = '';
+// let maxtemp = '';
+
 // Display data
 function displayData(data) {
+    if (unitType == 'far') {
+        temp = data.temp_f;
+        feelsLike = data.feelslike_f;
+        maxtemp = data.maxtemp_f;
+        mintemp = data.mintemp_f;
+        vis = `${data.vis_miles  }m`;
+        wind = `${data.wind_mph  }mph`;
+    } else if (unitType == 'cel') {
+        temp = data.temp_c;
+        feelsLike = data.feelslike_c;
+        maxtemp = data.maxtemp_c;
+        mintemp = data.mintemp_c;
+        vis = `${data.vis_km  }km`;
+        wind = `${data.wind_kph  }kph`;
+    }
+
     locationDisplay.textContent = `${data.location}, ${data.country}`;
     localTimeDisplay.textContent = data.localTime;
     iconDisplay.src = data.icon;
-    tempDisplay.textContent = `${data.temp_f}°`;
+    tempDisplay.textContent = `${temp}°`;
     conditionDisplay.textContent = data.condition;
-    feelsLikeDisplay.textContent = `Feels like ${data.feelslike_f}°`;
-    highLowDisplay.textContent = `H: ${data.maxtemp_f}° L: ${data.mintemp_f}°`;
+    feelsLikeDisplay.textContent = `Feels like ${feelsLike}°`;
+    highLowDisplay.textContent = `H: ${maxtemp}° L: ${mintemp}°`;
     rainDisplay.textContent = `${data.rain}%`;
     cloudDisplay.textContent = `${data.cloud}%`;
-    visibilityDisplay.textContent = `${data.vis_miles}m`;
-    windDisplay.textContent = `${data.wind_mph}mph`;
+    visibilityDisplay.textContent = vis;
+    windDisplay.textContent = wind;
     humidityDisplay.textContent = `${data.humidity}%`;
     uvDisplay.textContent = data.uv;
     sunriseDisplay.textContent = data.sunrise;
@@ -95,7 +143,6 @@ function displayData(data) {
 
 // Initial display
 getWeatherData('seattle');
-
 
 // Search new location
 submitBtn.addEventListener('click', (e) => {
@@ -108,6 +155,20 @@ submitBtn.addEventListener('click', (e) => {
     }
 });
 
+// celBtn.addEventListener('click', () => {
+//     farBtn.classList.remove('selected');
+//     celBtn.classList.add('selected');
+//     unitType = 'cel';
+//     console.log(unitType);
+// });
+
+// farBtn.addEventListener('click', () => {
+//     celBtn.classList.remove('selected');
+//     farBtn.classList.add('selected');
+//     unitType = 'far';
+//     console.log(unitType);
+// });
+
 /* 
 TO DO
 add UI to html elements
@@ -119,8 +180,6 @@ maybe find different icons?????
 round temps to whole number
 
 format h/l better (add space in between???)
-
-implement farhenheit to celsius toggle
 
 add hourly/daily info
 
