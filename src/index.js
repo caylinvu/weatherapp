@@ -99,13 +99,6 @@ function getWeatherData(location) {
     );
 }
 
-// let temp = '';
-// let feelsLike = '';
-// let wind = '';
-// let vis = '';
-// let mintemp = '';
-// let maxtemp = '';
-
 // Display data
 function displayData(data) {
     if (unitType == 'far') {
@@ -155,33 +148,23 @@ submitBtn.addEventListener('click', (e) => {
     }
 });
 
-// celBtn.addEventListener('click', () => {
-//     farBtn.classList.remove('selected');
-//     celBtn.classList.add('selected');
-//     unitType = 'cel';
-//     console.log(unitType);
-// });
-
-// farBtn.addEventListener('click', () => {
-//     celBtn.classList.remove('selected');
-//     farBtn.classList.add('selected');
-//     unitType = 'far';
-//     console.log(unitType);
-// });
 
 /* 
 TO DO
+
 add UI to html elements
 
 clean up input formatting (date/time, country shown)
 
 maybe find different icons?????
 
-round temps to whole number
-
 format h/l better (add space in between???)
 
 add hourly/daily info
 
+handle errors
+
+add loading icon
+
 add footer
-*/
+ */
