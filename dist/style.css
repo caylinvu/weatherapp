@@ -1,0 +1,41 @@
+body {
+    font-size: 20px;
+}
+
+button, input {
+    font-size: inherit;
+}
+
+.search-form {
+    border: 1px solid black;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+}
+
+.search-form input {
+    border: none;
+    height: 36px;
+    border-radius: 25px;
+    padding: 5px 15px;
+}
+
+.search-form input:focus {
+    outline: none;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 50px;
+    border: none;
+    border-radius: 25px;
+    margin-right: 3px;
+}
+
+.search-form img {
+    width: 30px;
+}

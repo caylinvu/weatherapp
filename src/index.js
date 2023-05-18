@@ -40,7 +40,7 @@ function Data(data) {
 
 // Display data
 function displayData(data) {
-    
+
 }
 
 getWeatherData('fayetteville')
@@ -52,3 +52,18 @@ getWeatherData('fayetteville')
     .catch(error => {
         console.error(error)
     });
+
+
+/* 
+TO DO
+
+finish implementing search bar
+
+add html elements
+
+tie html elements to data
+
+add UI to html elements
+
+implement farhenheit to celsius toggle
+*/
