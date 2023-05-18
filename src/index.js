@@ -15,7 +15,7 @@ const windDisplay = document.getElementById('wind');
 const humidityDisplay = document.getElementById('humidity');
 const uvDisplay = document.getElementById('uv');
 const sunriseDisplay = document.getElementById('sunrise');
-const sunsetDisplay = document.getElementsByName('sunset');
+const sunsetDisplay = document.getElementById('sunset');
 
 // Fetch weather data from weather API
 async function fetchData(location) {
@@ -65,6 +65,9 @@ function getWeatherData(location) {
             console.log(currentData);
             return(currentData);
         })
+        .then(response => {
+            displayData(response);
+        })
         .catch(error => {
             console.error(error)
         }
@@ -73,7 +76,21 @@ function getWeatherData(location) {
 
 // Display data
 function displayData(data) {
-
+    locationDisplay.textContent = `${data.location}, ${data.country}`;
+    localTimeDisplay.textContent = data.localTime;
+    iconDisplay.src = data.icon;
+    tempDisplay.textContent = `${data.temp_f}°`;
+    conditionDisplay.textContent = data.condition;
+    feelsLikeDisplay.textContent = `Feels like ${data.feelslike_f}°`;
+    highLowDisplay.textContent = `H: ${data.maxtemp_f}° L: ${data.mintemp_f}°`;
+    rainDisplay.textContent = `${data.rain}%`;
+    cloudDisplay.textContent = `${data.cloud}%`;
+    visibilityDisplay.textContent = `${data.vis_miles}m`;
+    windDisplay.textContent = `${data.wind_mph}mph`;
+    humidityDisplay.textContent = `${data.humidity}%`;
+    uvDisplay.textContent = data.uv;
+    sunriseDisplay.textContent = data.sunrise;
+    sunsetDisplay.textContent = data.sunset;
 }
 
 // Initial display
@@ -93,11 +110,19 @@ submitBtn.addEventListener('click', (e) => {
 
 /* 
 TO DO
-tie html elements to data
-
 add UI to html elements
 
+clean up input formatting (date/time, country shown)
+
+maybe find different icons?????
+
+round temps to whole number
+
+format h/l better (add space in between???)
+
 implement farhenheit to celsius toggle
+
+add hourly/daily info
 
 add footer
 */
