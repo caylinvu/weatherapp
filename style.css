@@ -1,10 +1,43 @@
+:root {
+    --color1: #5780bb;
+    --color2: #71c6d4;
+    --color3: #95d4e4;
+    --color4: #fcfcfc;
+}
+
+html {
+    height: 100vh;
+}
+
 body {
+    font-family: 'Nunito', sans-serif;
     font-size: 20px;
+    font-weight: bold;
+    color: var(--color4);
+    margin: 0;
+    background-image: linear-gradient(var(--color2), var(--color1));
 }
 
 button, input {
+    font-family: inherit;
     font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
 }
+
+/* ----------HEADER---------- */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+}
+
+.header-txt {
+    font-size: 32px;
+}
+
+/* ----------SEARCH BAR---------- */
 
 .search-form {
     border: 1px solid black;
@@ -12,13 +45,24 @@ button, input {
     display: flex;
     align-items: center;
     border-radius: 25px;
+    background-color: var(--color1);
+    border: none;
+    height: 38px;
+}
+
+.search-form:focus-within {
+    outline: 2px solid var(--color4);
+    transition: .1s;
 }
 
 .search-form input {
     border: none;
-    height: 36px;
+    height: 38px;
     border-radius: 25px;
-    padding: 5px 15px;
+    padding: 5px 10px 5px 20px;
+    background-color: inherit;
+    font-size: 18px;
+    width: 275px;
 }
 
 .search-form input:focus {
@@ -29,17 +73,39 @@ button, input {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
-    width: 50px;
+    height: 28px;
+    width: 45px;
     border: none;
     border-radius: 25px;
-    margin-right: 3px;
+    margin-right: 5px;
+    background-color: var(--color4);
 }
 
 .search-form img {
-    width: 30px;
+    width: 25px;
+    filter: invert(41%) sepia(96%) saturate(264%) hue-rotate(176deg) brightness(98%) contrast(91%);
 }
 
-.selected {
-    background-color: pink;
+/* ----------C°/F° BUTTONS---------- */
+
+.btn-container button {
+    font-size: 16px;
+    width: 85px;
+    height: 38px;
+    border-radius: 25px;
+    border: none;
+    background-color: var(--color1);
+    color: var(--color4);
+    font-weight: bold;
 }
+
+#far-btn {
+    margin-left: 10px;
+}
+
+.btn-container .selected {
+    outline: 2px solid var(--color4);
+    transition: .1s;
+}
+
+/* ----------MAIN CONTENT---------- */
