@@ -1,5 +1,9 @@
+const searchForm = document.querySelector('.search-form');
+const searchInput = document.querySelector('.search-input');
+const submitBtn = document.querySelector('.submit-btn');
+
 // Fetch weather data from weather API
-async function getWeatherData(location) {
+async function fetchData(location) {
     try {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=8`, {mode: 'cors'});
         const weatherData = await response.json();
@@ -38,21 +42,48 @@ function Data(data) {
     this.maxtemp_c = data.forecast.forecastday[0].day.maxtemp_c;
 }
 
+// Return weather data object for specified location
+function getWeatherData(location) {
+    fetchData(location)
+        .then(response => {
+            const currentData = new Data(response);
+            console.log(currentData);
+            return(currentData);
+        })
+        .catch(error => {
+            console.error(error)
+        }
+    );
+}
+
 // Display data
 function displayData(data) {
 
 }
 
-getWeatherData('fayetteville')
-    .then(response => {
-        const currentData = new Data(response);
-        console.log(currentData);
-        return(currentData);
-    })
-    .catch(error => {
-        console.error(error)
-    });
+// Initial display
+getWeatherData('seattle');
+// fetchData('seattle')
+//     .then(response => {
+//         const currentData = new Data(response);
+//         console.log(currentData);
+//         return(currentData);
+//     })
+//     .catch(error => {
+//         console.error(error)
+//     }
+// );
 
+// Search new location
+submitBtn.addEventListener('click', (e) => {
+    if (!searchForm.checkValidity()) {
+        searchForm.reportValidity();
+    } else {
+        getWeatherData(searchInput.value);
+        searchInput.value = '';
+        e.preventDefault();
+    }
+});
 
 /* 
 TO DO
