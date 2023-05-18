@@ -44,26 +44,26 @@ function Data(data) {
     this.region = data.location.region;
     this.country = data.location.country;
     this.localTime = data.location.localtime;
-    this.temp_f = data.current.temp_f;
-    this.temp_c = data.current.temp_c;
+    this.temp_f = Math.round(data.current.temp_f);
+    this.temp_c = Math.round(data.current.temp_c);
     this.icon = data.current.condition.icon;
     this.condition = data.current.condition.text;
-    this.feelslike_f = data.current.feelslike_f;
-    this.feelslike_c = data.current.feelslike_c;
+    this.feelslike_f = Math.round(data.current.feelslike_f);
+    this.feelslike_c = Math.round(data.current.feelslike_c);
     this.humidity = data.current.humidity;
     this.uv = data.current.uv;
     this.cloud = data.current.cloud;
-    this.wind_mph = data.current.wind_mph;
-    this.wind_kph = data.current.wind_kph;
-    this.vis_miles = data.current.vis_miles;
-    this.vis_km = data.current.vis_km;
+    this.wind_mph = Math.round(data.current.wind_mph);
+    this.wind_kph = Math.round(data.current.wind_kph);
+    this.vis_miles = Math.round(data.current.vis_miles);
+    this.vis_km = Math.round(data.current.vis_km);
     this.sunrise = data.forecast.forecastday[0].astro.sunrise;
     this.sunset = data.forecast.forecastday[0].astro.sunset;
     this.rain = data.forecast.forecastday[0].day.daily_chance_of_rain;
-    this.mintemp_f = data.forecast.forecastday[0].day.mintemp_f;
-    this.maxtemp_f = data.forecast.forecastday[0].day.maxtemp_f;
-    this.mintemp_c = data.forecast.forecastday[0].day.mintemp_c;
-    this.maxtemp_c = data.forecast.forecastday[0].day.maxtemp_c;
+    this.mintemp_f = Math.round(data.forecast.forecastday[0].day.mintemp_f);
+    this.maxtemp_f = Math.round(data.forecast.forecastday[0].day.maxtemp_f);
+    this.mintemp_c = Math.round(data.forecast.forecastday[0].day.mintemp_c);
+    this.maxtemp_c = Math.round(data.forecast.forecastday[0].day.maxtemp_c);
 }
 
 // Return weather data object for specified location
