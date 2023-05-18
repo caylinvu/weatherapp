@@ -4,14 +4,50 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Weather App</title>
+        <title>myWeather</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <form action="" method="get" class="search-form">
-            <input type="search" class="search-input" required>
-            <button type="submit" class="submit-btn"><img src="images/search.svg" alt="search icon"></button>
-        </form>
+        <div class="header">
+            <div class="header-txt">myWeather</div>
+            <form action="" method="get" class="search-form">
+                <input type="search" class="search-input" required>
+                <button type="submit" class="submit-btn"><img src="images/search.svg" alt="search icon"></button>
+            </form>
+            <div class="btn-container">
+                <button class="cel-btn">°C, km</button>
+                <button class="far-btn">°F, m</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="location-info">
+                <div class="location"></div>
+                <div class="date"></div>
+            </div>
+            <div class="current-forecast">
+                <div class="main-info">
+                    <div>
+                        <div class="icon"></div>
+                        <div class="temp"></div>
+                    </div>
+                    <div class="condition"></div>
+                    <div class="feels-like"></div>
+                    <div class="high-low"></div>
+                </div>
+                <div class="other-info">
+                    <div class="rain"></div>
+                    <div class="cloudiness"></div>
+                    <div class="visibility"></div>
+                    <div class="wind"></div>
+                    <div class="humidity"></div>
+                    <div class="uv"></div>
+                    <div class="sunrise"></div>
+                    <div class="sunset"></div>
+                </div>
+            </div>
+            <div class="hourly-container"></div>
+            <div class="daily-container"></div>
+        </div>
         <script src="main.js"></script>
     </body>
 </html>

@@ -63,16 +63,7 @@ function displayData(data) {
 
 // Initial display
 getWeatherData('seattle');
-// fetchData('seattle')
-//     .then(response => {
-//         const currentData = new Data(response);
-//         console.log(currentData);
-//         return(currentData);
-//     })
-//     .catch(error => {
-//         console.error(error)
-//     }
-// );
+
 
 // Search new location
 submitBtn.addEventListener('click', (e) => {
@@ -88,13 +79,15 @@ submitBtn.addEventListener('click', (e) => {
 /* 
 TO DO
 
-finish implementing search bar
-
 add html elements
+
+CHANGE SOME HTML ELEMENT CLASSES TO ID'S AND ADD OTHER CLASSES FOR DISPLAY TYPES
 
 tie html elements to data
 
 add UI to html elements
 
 implement farhenheit to celsius toggle
+
+add footer
 */
