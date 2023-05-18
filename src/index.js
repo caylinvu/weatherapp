@@ -78,11 +78,6 @@ submitBtn.addEventListener('click', (e) => {
 
 /* 
 TO DO
-
-add html elements
-
-CHANGE SOME HTML ELEMENT CLASSES TO ID'S AND ADD OTHER CLASSES FOR DISPLAY TYPES
-
 tie html elements to data
 
 add UI to html elements
