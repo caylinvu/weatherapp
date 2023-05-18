@@ -162,6 +162,8 @@ format h/l better (add space in between???)
 
 add hourly/daily info
 
+remove leading 0 on sunrise/sunset
+
 handle errors
 
 add loading icon
