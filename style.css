@@ -1,7 +1,7 @@
 :root {
     --color1: #5780bb;
     --color2: #71c6d4;
-    --color3: #95d4e4;
+    --color3: #b5ecfa;
     --color4: #fcfcfc;
 }
 
@@ -109,3 +109,72 @@ button, input {
 }
 
 /* ----------MAIN CONTENT---------- */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+/* ----------LOCATION INFO---------- */
+
+.location-info {
+    text-align: center;
+}
+
+.location {
+    font-size: 40px;
+}
+
+.local-time {
+    color: var(--color3);
+}
+
+/* ----------CURRENT FORECAST---------- */
+
+.current-forecast {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 40px 0;
+}
+
+.temp-container {
+    display: flex;
+    align-items: center;
+    font-size: 64px;
+}
+
+.temp-container img {
+    width: 100px;
+}
+
+.condition {
+    font-size: 24px;
+}
+
+.feels-like, .high-low {
+    font-size: 18px;
+    color: var(--color3);
+}
+
+.cond-container {
+    padding-left: 20px;
+}
+
+.other-info {
+    display: grid;
+    grid-template-columns: repeat(3, 125px);
+    gap: 35px;
+}
+
+.info-title {
+    font-size: 18px;
+    color: var(--color3);
+    padding-bottom: 5px;
+}
+
+.info-details {
+    font-size: 24px;
+}
