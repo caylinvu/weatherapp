@@ -1,6 +1,21 @@
 const searchForm = document.querySelector('.search-form');
 const searchInput = document.querySelector('.search-input');
 const submitBtn = document.querySelector('.submit-btn');
+const locationDisplay = document.querySelector('.location');
+const localTimeDisplay = document.querySelector('.local-time');
+const iconDisplay = document.querySelector('.icon');
+const tempDisplay = document.querySelector('.temp');
+const conditionDisplay = document.querySelector('.condition');
+const feelsLikeDisplay = document.querySelector('.feels-like');
+const highLowDisplay = document.querySelector('.high-low');
+const rainDisplay = document.getElementById('rain');
+const cloudDisplay = document.getElementById('cloud');
+const visibilityDisplay = document.getElementById('visibility');
+const windDisplay = document.getElementById('wind');
+const humidityDisplay = document.getElementById('humidity');
+const uvDisplay = document.getElementById('uv');
+const sunriseDisplay = document.getElementById('sunrise');
+const sunsetDisplay = document.getElementsByName('sunset');
 
 // Fetch weather data from weather API
 async function fetchData(location) {
