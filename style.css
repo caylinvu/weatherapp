@@ -3,6 +3,7 @@
     --color2: #64becc;
     --color3: #b5ecfa;
     --color4: #fcfcfc;
+    --color5: #92c4d1;
 }
 
 html {
@@ -67,6 +68,10 @@ button, input {
 
 .search-form input:focus {
     outline: none;
+}
+
+.search-form input::placeholder {
+    color: var(--color5);
 }
 
 .submit-btn {
