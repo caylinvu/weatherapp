@@ -25,6 +25,8 @@ let wind = '';
 let vis = '';
 let mintemp = '';
 let maxtemp = '';
+let location = '';
+let stateAbbr = '';
 
 // Fetch weather data from weather API
 async function fetchData(location) {
@@ -99,6 +101,74 @@ function getWeatherData(location) {
     );
 }
 
+// States
+const states = {
+    'Alabama': 'AL',
+    'Alaska': 'AK',
+    'American Samoa': 'AS',
+    'Arizona': 'AZ',
+    'Arkansas': 'AR',
+    'California': 'CA',
+    'Colorado': 'CO',
+    'Connecticut': 'CT',
+    'Delaware': 'DE',
+    'District Of Columbia': 'DC',
+    'Federated States Of Micronesia': 'FM',
+    'Florida': 'FL',
+    'Georgia': 'GA',
+    'Guam': 'GU',
+    'Hawaii': 'HI',
+    'Idaho': 'ID',
+    'Illinois': 'IL',
+    'Indiana': 'IN',
+    'Iowa': 'IA',
+    'Kansas': 'KS',
+    'Kentucky': 'KY',
+    'Louisiana': 'LA',
+    'Maine': 'ME',
+    'Marshall Islands': 'MH',
+    'Maryland': 'MD',
+    'Massachusetts': 'MA',
+    'Michigan': 'MI',
+    'Minnesota': 'MN',
+    'Mississippi': 'MS',
+    'Missouri': 'MO',
+    'Montana': 'MT',
+    'Nebraska': 'NE',
+    'Nevada': 'NV',
+    'New Hampshire': 'NH',
+    'New Jersey': 'NJ',
+    'New Mexico': 'NM',
+    'New York': 'NY',
+    'North Carolina': 'NC',
+    'North Dakota': 'ND',
+    'Northern Mariana Islands': 'MP',
+    'Ohio': 'OH',
+    'Oklahoma': 'OK',
+    'Oregon': 'OR',
+    'Palau': 'PW',
+    'Pennsylvania': 'PA',
+    'Puerto Rico': 'PR',
+    'Rhode Island': 'RI',
+    'South Carolina': 'SC',
+    'South Dakota': 'SD',
+    'Tennessee': 'TN',
+    'Texas': 'TX',
+    'Utah': 'UT',
+    'Vermont': 'VT',
+    'Virgin Islands': 'VI',
+    'Virginia': 'VA',
+    'Washington': 'WA',
+    'West Virginia': 'WV',
+    'Wisconsin': 'WI',
+    'Wyoming': 'WY'
+}
+
+// Get state abbreviation
+function getStateAbbr(state) {
+    return states[state];
+}
+
 // Display data
 function displayData(data) {
     if (unitType == 'far') {
@@ -117,7 +187,14 @@ function displayData(data) {
         wind = `${data.wind_kph  }kph`;
     }
 
-    locationDisplay.textContent = `${data.location}, ${data.country}`;
+    if (data.country == 'United States of America') {
+        stateAbbr = getStateAbbr(data.region);
+        location = `${data.location}, ${stateAbbr}, United States`;
+    } else {
+        location = `${data.location}, ${data.country}`;
+    }
+
+    locationDisplay.textContent = location;
     localTimeDisplay.textContent = data.localTime;
     iconDisplay.src = data.icon;
     tempDisplay.textContent = `${temp}°`;
@@ -152,17 +229,13 @@ submitBtn.addEventListener('click', (e) => {
 /* 
 TO DO
 
-add UI to html elements
-
 clean up input formatting (date/time, country shown)
 
 maybe find different icons?????
 
-format h/l better (add space in between???)
+remove leading 0 on sunrise/sunset
 
 add hourly/daily info
-
-remove leading 0 on sunrise/sunset
 
 handle errors
 
