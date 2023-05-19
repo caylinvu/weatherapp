@@ -169,6 +169,12 @@ function getStateAbbr(state) {
     return states[state];
 }
 
+// Weekdays
+const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+// Months
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
 // Display data
 function displayData(data) {
     if (unitType == 'far') {
@@ -187,15 +193,18 @@ function displayData(data) {
         wind = `${data.wind_kph  }kph`;
     }
 
-    if (data.country == 'United States of America') {
+    if (data.country == 'United States of America' || data.country == 'USA') {
         stateAbbr = getStateAbbr(data.region);
         location = `${data.location}, ${stateAbbr}, United States`;
     } else {
         location = `${data.location}, ${data.country}`;
     }
 
+    const currentDate = new Date(data.localTime);
+    const formattedDate = currentDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+
     locationDisplay.textContent = location;
-    localTimeDisplay.textContent = data.localTime;
+    localTimeDisplay.textContent = formattedDate;
     iconDisplay.src = data.icon;
     tempDisplay.textContent = `${temp}°`;
     conditionDisplay.textContent = data.condition;
@@ -229,7 +238,7 @@ submitBtn.addEventListener('click', (e) => {
 /* 
 TO DO
 
-clean up input formatting (date/time, country shown)
+clean up input formatting (date/time)
 
 maybe find different icons?????
 
@@ -237,7 +246,9 @@ remove leading 0 on sunrise/sunset
 
 add hourly/daily info
 
-handle errors
+handle errors 
+
+add error messages when an invalid location is searched
 
 add loading icon
 
