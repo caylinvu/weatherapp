@@ -18,7 +18,12 @@ const sunriseDisplay = document.getElementById('sunrise');
 const sunsetDisplay = document.getElementById('sunset');
 const celBtn = document.getElementById('cel-btn');
 const farBtn = document.getElementById('far-btn');
+const dailyBtn = document.getElementById('daily-btn');
+const hourlyBtn = document.getElementById('hourly-btn');
+const dailyContainer = document.querySelector('.daily-container');
+const hourlyContainer = document.querySelector('.hourly-container');
 let unitType = 'far';
+let forecastType = 'daily';
 let temp = '';
 let feelsLike = '';
 let wind = '';
@@ -33,7 +38,7 @@ let sunset = '';
 // Fetch weather data from weather API
 async function fetchData(location) {
     try {
-        const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=8`, {mode: 'cors'});
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=10`, {mode: 'cors'});
         const weatherData = await response.json();
         console.log(weatherData);
         return(weatherData);
@@ -68,6 +73,29 @@ function Data(data) {
     this.maxtemp_f = Math.round(data.forecast.forecastday[0].day.maxtemp_f);
     this.mintemp_c = Math.round(data.forecast.forecastday[0].day.mintemp_c);
     this.maxtemp_c = Math.round(data.forecast.forecastday[0].day.maxtemp_c);
+
+    const dataList = data.forecast.forecastday;
+    const dailyForecastArray = [];
+    for (let i = 0; i < 10; i++) {
+        const forecastDay = new Date(dataList[i].date).toLocaleString('en-US', { weekday: 'long' });
+        const highTemp_f = Math.round(dataList[i].day.maxtemp_f);
+        const highTemp_c = Math.round(dataList[i].day.maxtemp_c);
+        const lowTemp_f = Math.round(dataList[i].day.mintemp_f);
+        const lowTemp_c = Math.round(dataList[i].day.mintemp_c);
+        const forecastIcon = dataList[i].day.condition.icon;
+        
+        const forecastObj = {
+            day: forecastDay,
+            hightemp_f: highTemp_f,
+            hightemp_c: highTemp_c,
+            lowtemp_f: lowTemp_f,
+            lowtemp_c: lowTemp_c,
+            icon: forecastIcon,
+        };
+        dailyForecastArray.push(forecastObj);
+    }
+
+    this.dailyForecastArray = dailyForecastArray;
 }
 
 // Return weather data object for specified location
@@ -96,6 +124,22 @@ function getWeatherData(location) {
                 console.log(unitType);
                 displayData(response);
             });
+
+            dailyBtn.addEventListener('click', () => {
+                hourlyBtn.classList.remove('selected');
+                dailyBtn.classList.add('selected');
+                forecastType = 'daily';
+                console.log(forecastType);
+                displayData(response);
+            });
+
+            hourlyBtn.addEventListener('click', () => {
+                dailyBtn.classList.remove('selected');
+                hourlyBtn.classList.add('selected');
+                forecastType = 'hourly';
+                console.log(forecastType);
+                displayData(response);
+            })
         })
         .catch(error => {
             console.error(error)
@@ -173,6 +217,7 @@ function getStateAbbr(state) {
 
 // Display data
 function displayData(data) {
+    // Display current forecast data
     if (unitType == 'far') {
         temp = data.temp_f;
         feelsLike = data.feelslike_f;
@@ -191,7 +236,11 @@ function displayData(data) {
 
     if (data.country == 'United States of America' || data.country == 'USA') {
         stateAbbr = getStateAbbr(data.region);
-        location = `${data.location}, ${stateAbbr}, United States`;
+        if (stateAbbr == undefined) {
+            location = `${data.location}, United States`;
+        } else {
+            location = `${data.location}, ${stateAbbr}, United States`;
+        }
     } else {
         location = `${data.location}, ${data.country}`;
     }
@@ -226,6 +275,47 @@ function displayData(data) {
     uvDisplay.textContent = data.uv;
     sunriseDisplay.textContent = sunrise;
     sunsetDisplay.textContent = sunset;
+
+    // Display daily forecast data
+    for (let i = 0; i < 10; i++) {
+        const dailyDiv = document.createElement('div');
+        const dayDisplay = document.createElement('div');
+        const highTempDisplay = document.createElement('div');
+        const lowTempDisplay = document.createElement('div');
+        const dailyIconDisplay = document.createElement('img');
+        let currentDay = '';
+        let highTemp = '';
+        let lowTemp = '';
+
+        dailyDiv.classList.add('daily-div');
+
+        if (i == 0) {
+            currentDay = 'Today';
+        } else {
+            currentDay = data.dailyForecastArray[i].day;
+        }
+
+        if (unitType == 'far') {
+            highTemp = data.dailyForecastArray[i].hightemp_f;
+            lowTemp = data.dailyForecastArray[i].lowtemp_f;
+        } else if (unitType == 'cel') {
+            highTemp = data.dailyForecastArray[i].hightemp_c;
+            lowTemp = data.dailyForecastArray[i].lowtemp_c;
+        }
+
+        dayDisplay.textContent = currentDay;
+        highTempDisplay.textContent = `H: ${highTemp}°`;
+        lowTempDisplay.textContent = `L: ${lowTemp}°`;
+        dailyIconDisplay.src = data.dailyForecastArray[i].icon;
+
+        dailyDiv.appendChild(dayDisplay);
+        dailyDiv.appendChild(highTempDisplay);
+        dailyDiv.appendChild(lowTempDisplay);
+        dailyDiv.appendChild(dailyIconDisplay);
+        dailyContainer.appendChild(dailyDiv);
+    }
+
+    // Display hourly forecast data
 }
 
 // Initial display
@@ -242,21 +332,49 @@ submitBtn.addEventListener('click', (e) => {
     }
 });
 
+// EVENT LISTENERS IF YOU WANT IT TO FETCH DATA EVERY TIME YOU TOGGLE UNITS
+// celBtn.addEventListener('click', () => {
+//     farBtn.classList.remove('selected');
+//     celBtn.classList.add('selected');
+//     unitType = 'cel';
+//     console.log(unitType);
+//     getWeatherData(locationDisplay.textContent);
+// });
+
+// farBtn.addEventListener('click', () => {
+//     celBtn.classList.remove('selected');
+//     farBtn.classList.add('selected');
+//     unitType = 'far';
+//     console.log(unitType);
+//     getWeatherData(locationDisplay.textContent);
+// });
+
+
 
 /* 
 TO DO
 
-maybe find different icons?????
+add hourly info
 
-remove leading 0 on sunrise/sunset
+    fix UI
 
-add hourly/daily info
+add daily info
+
+    fetch required data
+
+    tie data to html elements or create html elements to display data
+
+    fix UI
 
 handle errors 
 
-add error messages when an invalid location is searched
+    add error messages when an invalid location is searched
 
 add loading icon
+
+maybe add local storage????
+
+maybe add a refresh button next to time????
 
 add footer
  */

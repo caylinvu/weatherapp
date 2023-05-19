@@ -15,7 +15,7 @@
                 <input type="search" class="search-input" required placeholder="Enter city name or zip code">
                 <button type="submit" class="submit-btn"><img src="images/search.svg" alt="search icon"></button>
             </form>
-            <div class="btn-container">
+            <div class="unit-btns">
                 <button id="cel-btn">°C, kph</button>
                 <button id="far-btn" class="selected">°F, mph</button>
             </div>
@@ -72,8 +72,13 @@
                     </div>
                 </div>
             </div>
-            <div class="hourly-container"></div>
+            <div class="forecast-btns">
+                <button id="daily-btn" class="selected">Daily</button>
+                <button id="hourly-btn">Hourly</button>
+            </div>
+            <div class="forecast-title">10-Day Forecast</div>
             <div class="daily-container"></div>
+            <div class="hourly-container"></div>
         </div>
         <script src="main.js"></script>
     </body>
