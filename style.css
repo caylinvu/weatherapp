@@ -7,7 +7,7 @@
 }
 
 html {
-    height: 100vh;
+
 }
 
 body {
@@ -91,24 +91,40 @@ button, input {
     filter: invert(41%) sepia(96%) saturate(264%) hue-rotate(176deg) brightness(98%) contrast(91%);
 }
 
-/* ----------C°/F° BUTTONS---------- */
+/* ----------C°/F° & FORECAST BUTTONS---------- */
 
-.btn-container button {
+.unit-btns button {
     font-size: 16px;
     width: 85px;
     height: 38px;
     border-radius: 25px;
     border: none;
     background-color: var(--color1);
-    color: var(--color4);
-    font-weight: bold;
 }
 
-#far-btn {
+.forecast-btns button {
+    font-size: 16px;
+    width: 85px;
+    height: 38px;
+    border-radius: 25px;
+    border: none;
+    background-color: inherit;
+}
+
+.unit-btns button:hover,
+.forecast-btns button:hover {
+    cursor: pointer;
+    outline: 2px solid var(--color4);
+    transition: .1s;
+}
+
+#far-btn,
+#hourly-btn {
     margin-left: 10px;
 }
 
-.btn-container .selected {
+.unit-btns .selected,
+.forecast-btns .selected {
     outline: 2px solid var(--color4);
     transition: .1s;
 }
@@ -182,4 +198,27 @@ button, input {
 
 .info-details {
     font-size: 24px;
+}
+
+/* ----------DAILY FORECAST---------- */
+
+.forecast-title {
+    padding: 35px 0 10px 0;
+    font-size: 32px;
+}
+
+.daily-div {
+    display: grid;
+    grid-template-columns: 150px 100px 100px 100px;
+    align-items: center;
+    border-bottom: solid 1px var(--color4);
+}
+
+.daily-div div,
+.daily-div img {
+    padding-left: 20px;
+}
+
+.daily-div:last-child {
+    border-bottom: none;
 }
