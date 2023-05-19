@@ -27,6 +27,8 @@ let mintemp = '';
 let maxtemp = '';
 let location = '';
 let stateAbbr = '';
+let sunrise = '';
+let sunset = '';
 
 // Fetch weather data from weather API
 async function fetchData(location) {
@@ -169,12 +171,6 @@ function getStateAbbr(state) {
     return states[state];
 }
 
-// Weekdays
-const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-// Months
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
 // Display data
 function displayData(data) {
     if (unitType == 'far') {
@@ -203,6 +199,18 @@ function displayData(data) {
     const currentDate = new Date(data.localTime);
     const formattedDate = currentDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
 
+    if (data.sunrise.startsWith(0)) {
+        sunrise = data.sunrise.slice(1);
+    } else {
+        sunrise = data.sunrise;
+    }
+
+    if (data.sunset.startsWith(0)) {
+        sunset = data.sunset.slice(1);
+    } else {
+        sunset = data.sunset;
+    }
+
     locationDisplay.textContent = location;
     localTimeDisplay.textContent = formattedDate;
     iconDisplay.src = data.icon;
@@ -216,8 +224,8 @@ function displayData(data) {
     windDisplay.textContent = wind;
     humidityDisplay.textContent = `${data.humidity}%`;
     uvDisplay.textContent = data.uv;
-    sunriseDisplay.textContent = data.sunrise;
-    sunsetDisplay.textContent = data.sunset;
+    sunriseDisplay.textContent = sunrise;
+    sunsetDisplay.textContent = sunset;
 }
 
 // Initial display
@@ -237,8 +245,6 @@ submitBtn.addEventListener('click', (e) => {
 
 /* 
 TO DO
-
-clean up input formatting (date/time)
 
 maybe find different icons?????
 
