@@ -22,6 +22,8 @@ const dailyBtn = document.getElementById('daily-btn');
 const hourlyBtn = document.getElementById('hourly-btn');
 const dailyContainer = document.querySelector('.daily-container');
 const hourlyContainer = document.querySelector('.hourly-container');
+const dailyForecast = document.querySelector('.daily-forecast');
+const hourlyForecast = document.querySelector('.hourly-forecast');
 let unitType = 'far';
 let forecastType = 'daily';
 let temp = '';
@@ -98,6 +100,13 @@ function Data(data) {
     this.dailyForecastArray = dailyForecastArray;
 }
 
+// Remove all child elements 
+function removeChildren(div) {
+    while (div.lastChild) {
+        div.removeChild(div.lastChild);
+    }
+}
+
 // Return weather data object for specified location
 function getWeatherData(location) {
     fetchData(location)
@@ -130,6 +139,10 @@ function getWeatherData(location) {
                 dailyBtn.classList.add('selected');
                 forecastType = 'daily';
                 console.log(forecastType);
+
+                hourlyForecast.style.display = 'none';
+                dailyForecast.style.display = 'block';
+
                 displayData(response);
             });
 
@@ -138,6 +151,10 @@ function getWeatherData(location) {
                 hourlyBtn.classList.add('selected');
                 forecastType = 'hourly';
                 console.log(forecastType);
+
+                dailyForecast.style.display = 'none';
+                hourlyForecast.style.display = 'block';
+
                 displayData(response);
             })
         })
@@ -217,6 +234,10 @@ function getStateAbbr(state) {
 
 // Display data
 function displayData(data) {
+
+    removeChildren(dailyContainer);
+    removeChildren(hourlyContainer);
+
     // Display current forecast data
     if (unitType == 'far') {
         temp = data.temp_f;
@@ -353,10 +374,6 @@ submitBtn.addEventListener('click', (e) => {
 
 /* 
 TO DO
-
-add hourly info
-
-    fix UI
 
 add daily info
 

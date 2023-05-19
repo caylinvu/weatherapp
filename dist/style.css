@@ -7,7 +7,7 @@
 }
 
 html {
-
+    min-height: 100vh;
 }
 
 body {
@@ -205,6 +205,7 @@ button, input {
 .forecast-title {
     padding: 35px 0 10px 0;
     font-size: 32px;
+    text-align: center;
 }
 
 .daily-div {
@@ -221,4 +222,10 @@ button, input {
 
 .daily-div:last-child {
     border-bottom: none;
+}
+
+/* ----------HOURLY FORECAST---------- */
+
+.hourly-forecast {
+    display: none;
 }
