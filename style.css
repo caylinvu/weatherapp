@@ -1,6 +1,6 @@
 :root {
     --color1: #5780bb;
-    --color2: #71c6d4;
+    --color2: #64becc;
     --color3: #b5ecfa;
     --color4: #fcfcfc;
 }
@@ -160,7 +160,7 @@ button, input {
 }
 
 .cond-container {
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .other-info {
