@@ -98,6 +98,40 @@ function Data(data) {
     }
 
     this.dailyForecastArray = dailyForecastArray;
+
+    const hourlyDataList = data.forecast.forecastday[0].hour;
+    const hourlyForecastArray = [];
+    for (let i = 0; i < 24; i++) {
+        const forecastHour = new Date(hourlyDataList[i].time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        const temperature_f = Math.round(hourlyDataList[i].temp_f);
+        const temperature_c = Math.round(hourlyDataList[i].temp_c);
+        const hourlyForecastIcon = hourlyDataList[i].condition.icon;
+        
+        const hourlyForecastObj = {
+            hour: forecastHour,
+            temp_f: temperature_f,
+            temp_c: temperature_c,
+            icon: hourlyForecastIcon,
+        };
+        hourlyForecastArray.push(hourlyForecastObj);
+    }
+
+    const nextDayData = data.forecast.forecastday[1].hour;
+    const nextDayForecastArray = [];
+    for (let i = 0; i < 24; i++) {
+        const nextDayForecastHour = new Date(nextDayData[i].time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        const nextDayTemp_f = Math.round(nextDayData[i].temp_f);
+        const nextDayTemp_c = Math.round(nextDayData[i].temp_c);
+        const nextDayForecastIcon = nextDayData[i].condition.icon;
+        
+        const nextDayForecastObj = {
+            hour: nextDayForecastHour,
+            temp_f: nextDayTemp_f,
+            temp_c: nextDayTemp_c,
+            icon: nextDayForecastIcon,
+        };
+        nextDayForecastArray.push(nextDayForecastObj);
+    }
 }
 
 // Remove all child elements 
