@@ -25,7 +25,7 @@ const hourlyContainer = document.querySelector('.hourly-container');
 const dailyForecast = document.querySelector('.daily-forecast');
 const hourlyForecast = document.querySelector('.hourly-forecast');
 let unitType = 'far';
-let forecastType = 'daily';
+let forecastType = 'hourly';
 let temp = '';
 let feelsLike = '';
 let wind = '';
@@ -36,6 +36,20 @@ let location = '';
 let stateAbbr = '';
 let sunrise = '';
 let sunset = '';
+
+// CAN REMOVE THIS AFTER FINISHING HOURLY DISPLAY
+if (forecastType === 'hourly') {
+    hourlyForecast.style.display = 'block';
+    dailyForecast.style.display = 'none';
+    dailyBtn.classList.remove('selected');
+    hourlyBtn.classList.add('selected');
+
+} else if (forecastType === 'daily') {
+    dailyForecast.style.display = 'block';
+    hourlyForecast.style.display = 'none';
+    hourlyBtn.classList.remove('selected');
+    dailyBtn.classList.add('selected');
+}
 
 // Fetch weather data from weather API
 async function fetchData(location) {
@@ -116,6 +130,8 @@ function Data(data) {
         hourlyForecastArray.push(hourlyForecastObj);
     }
 
+    this.hourlyForecastArray = hourlyForecastArray;
+
     const nextDayData = data.forecast.forecastday[1].hour;
     const nextDayForecastArray = [];
     for (let i = 0; i < 24; i++) {
@@ -132,6 +148,8 @@ function Data(data) {
         };
         nextDayForecastArray.push(nextDayForecastObj);
     }
+
+    this.nextDayForecastArray = nextDayForecastArray;
 }
 
 // Remove all child elements 
@@ -331,46 +349,73 @@ function displayData(data) {
     sunriseDisplay.textContent = sunrise;
     sunsetDisplay.textContent = sunset;
 
-    // Display daily forecast data
-    for (let i = 0; i < 10; i++) {
-        const dailyDiv = document.createElement('div');
-        const dayDisplay = document.createElement('div');
-        const highTempDisplay = document.createElement('div');
-        const lowTempDisplay = document.createElement('div');
-        const dailyIconDisplay = document.createElement('img');
-        let currentDay = '';
-        let highTemp = '';
-        let lowTemp = '';
+    // Display daily or hourly forecast data depending on selected button
+    if (forecastType === 'daily') {
+        for (let i = 0; i < 10; i++) {
+            const dailyDiv = document.createElement('div');
+            const dayDisplay = document.createElement('div');
+            const highTempDisplay = document.createElement('div');
+            const lowTempDisplay = document.createElement('div');
+            const dailyIconDisplay = document.createElement('img');
+            let currentDay = '';
+            let highTemp = '';
+            let lowTemp = '';
 
-        dailyDiv.classList.add('daily-div');
+            dailyDiv.classList.add('daily-div');
 
-        if (i == 0) {
-            currentDay = 'Today';
-        } else {
-            currentDay = data.dailyForecastArray[i].day;
+            if (i === 0) {
+                currentDay = 'Today';
+            } else {
+                currentDay = data.dailyForecastArray[i].day;
+            }
+
+            if (unitType === 'far') {
+                highTemp = data.dailyForecastArray[i].hightemp_f;
+                lowTemp = data.dailyForecastArray[i].lowtemp_f;
+            } else if (unitType === 'cel') {
+                highTemp = data.dailyForecastArray[i].hightemp_c;
+                lowTemp = data.dailyForecastArray[i].lowtemp_c;
+            }
+
+            dayDisplay.textContent = currentDay;
+            highTempDisplay.textContent = `H: ${highTemp}°`;
+            lowTempDisplay.textContent = `L: ${lowTemp}°`;
+            dailyIconDisplay.src = data.dailyForecastArray[i].icon;
+
+            dailyDiv.appendChild(dayDisplay);
+            dailyDiv.appendChild(highTempDisplay);
+            dailyDiv.appendChild(lowTempDisplay);
+            dailyDiv.appendChild(dailyIconDisplay);
+            dailyContainer.appendChild(dailyDiv);
         }
+    } else if (forecastType === 'hourly') {
+        for (let i = 0; i < 24; i++) {
+            const hourlyDiv = document.createElement('div');
+            const hourDisplay = document.createElement('div');
+            const hourlyTempDisplay = document.createElement('div');
+            const hourlyIconDisplay = document.createElement('img');
+            let hourlyTemp = '';
 
-        if (unitType == 'far') {
-            highTemp = data.dailyForecastArray[i].hightemp_f;
-            lowTemp = data.dailyForecastArray[i].lowtemp_f;
-        } else if (unitType == 'cel') {
-            highTemp = data.dailyForecastArray[i].hightemp_c;
-            lowTemp = data.dailyForecastArray[i].lowtemp_c;
+            hourlyDiv.classList.add('hourly-div');
+
+            if (unitType === 'far') {
+                hourlyTemp = data.hourlyForecastArray[i].temp_f;
+            } else if (unitType === 'cel') {
+                hourlyTemp = data.hourlyForecastArray[i].temp_c;
+            }
+
+            hourDisplay.textContent = data.hourlyForecastArray[i].hour;
+            hourlyTempDisplay.textContent = `${hourlyTemp}°`;
+            hourlyIconDisplay.src = data.hourlyForecastArray[i].icon;
+
+            hourlyDiv.appendChild(hourDisplay);
+            hourlyDiv.appendChild(hourlyTempDisplay);
+            hourlyDiv.appendChild(hourlyIconDisplay);
+            hourlyContainer.appendChild(hourlyDiv);
         }
-
-        dayDisplay.textContent = currentDay;
-        highTempDisplay.textContent = `H: ${highTemp}°`;
-        lowTempDisplay.textContent = `L: ${lowTemp}°`;
-        dailyIconDisplay.src = data.dailyForecastArray[i].icon;
-
-        dailyDiv.appendChild(dayDisplay);
-        dailyDiv.appendChild(highTempDisplay);
-        dailyDiv.appendChild(lowTempDisplay);
-        dailyDiv.appendChild(dailyIconDisplay);
-        dailyContainer.appendChild(dailyDiv);
     }
 
-    // Display hourly forecast data
+
 }
 
 // Initial display

@@ -229,3 +229,19 @@ button, input {
 .hourly-forecast {
     display: none;
 }
+
+.hourly-div {
+    display: grid;
+    grid-template-columns: 200px 125px 125px;
+    align-items: center;
+    border-bottom: solid 1px var(--color4);
+}
+
+.hourly-div div,
+.hourly-div img {
+    padding-left: 20px;
+}
+
+.hourly-div:last-child {
+    border-bottom: none;
+}
