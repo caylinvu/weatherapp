@@ -232,14 +232,17 @@ button, input {
 
 .hourly-div {
     display: grid;
-    grid-template-columns: 200px 125px 125px;
+    grid-template-columns: 150px 150px 150px;
     align-items: center;
     border-bottom: solid 1px var(--color4);
 }
 
-.hourly-div div,
+.hourly-div div {
+    padding-left: 50px;
+}
+
 .hourly-div img {
-    padding-left: 20px;
+    padding-left: 30px;
 }
 
 .hourly-div:last-child {

@@ -116,7 +116,8 @@ function Data(data) {
     const hourlyDataList = data.forecast.forecastday[0].hour;
     const hourlyForecastArray = [];
     for (let i = 0; i < 24; i++) {
-        const forecastHour = new Date(hourlyDataList[i].time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        const forecastHour = new Date(hourlyDataList[i].time).toLocaleString('en-US', { hour: 'numeric', hour12: true });
+        // const numericHour = new Data(hourlyDataList[i].time).toLocaleString
         const temperature_f = Math.round(hourlyDataList[i].temp_f);
         const temperature_c = Math.round(hourlyDataList[i].temp_c);
         const hourlyForecastIcon = hourlyDataList[i].condition.icon;
@@ -135,7 +136,7 @@ function Data(data) {
     const nextDayData = data.forecast.forecastday[1].hour;
     const nextDayForecastArray = [];
     for (let i = 0; i < 24; i++) {
-        const nextDayForecastHour = new Date(nextDayData[i].time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        const nextDayForecastHour = new Date(nextDayData[i].time).toLocaleString('en-US', { hour: 'numeric', hour12: true });
         const nextDayTemp_f = Math.round(nextDayData[i].temp_f);
         const nextDayTemp_c = Math.round(nextDayData[i].temp_c);
         const nextDayForecastIcon = nextDayData[i].condition.icon;
@@ -320,6 +321,8 @@ function displayData(data) {
 
     const currentDate = new Date(data.localTime);
     const formattedDate = currentDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+    const currentHour = currentDate.toLocaleString('en-US', { hour: 'numeric' });
+    // const currentHour = '11 PM';
 
     if (data.sunrise.startsWith(0)) {
         sunrise = data.sunrise.slice(1);
@@ -389,6 +392,24 @@ function displayData(data) {
             dailyContainer.appendChild(dailyDiv);
         }
     } else if (forecastType === 'hourly') {
+        console.log(data.hourlyForecastArray);
+        const tempArray1 = [];
+        let temp_i = '';
+        for (let i = 0; i < 24; i++) {
+            const {hour} = data.hourlyForecastArray[i];
+            if (hour === currentHour) {
+                temp_i = i;
+            }
+            if (temp_i && i > temp_i) {
+                tempArray1.push(data.hourlyForecastArray[i]);
+            }
+        }
+
+        const tempArray2 = data.nextDayForecastArray.slice(0, -tempArray1.length);
+        const combinedHoursArray = tempArray1.concat(tempArray2);
+
+        console.log(combinedHoursArray);
+
         for (let i = 0; i < 24; i++) {
             const hourlyDiv = document.createElement('div');
             const hourDisplay = document.createElement('div');
@@ -399,14 +420,14 @@ function displayData(data) {
             hourlyDiv.classList.add('hourly-div');
 
             if (unitType === 'far') {
-                hourlyTemp = data.hourlyForecastArray[i].temp_f;
+                hourlyTemp = combinedHoursArray[i].temp_f;
             } else if (unitType === 'cel') {
-                hourlyTemp = data.hourlyForecastArray[i].temp_c;
+                hourlyTemp = combinedHoursArray[i].temp_c;
             }
 
-            hourDisplay.textContent = data.hourlyForecastArray[i].hour;
+            hourDisplay.textContent = combinedHoursArray[i].hour;
             hourlyTempDisplay.textContent = `${hourlyTemp}°`;
-            hourlyIconDisplay.src = data.hourlyForecastArray[i].icon;
+            hourlyIconDisplay.src = combinedHoursArray[i].icon;
 
             hourlyDiv.appendChild(hourDisplay);
             hourlyDiv.appendChild(hourlyTempDisplay);
@@ -461,6 +482,8 @@ add daily info
     tie data to html elements or create html elements to display data
 
     fix UI
+
+SEE IF HOURS WORK WITH 12AM
 
 handle errors 
 
