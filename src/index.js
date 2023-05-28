@@ -322,7 +322,6 @@ function displayData(data) {
     const currentDate = new Date(data.localTime);
     const formattedDate = currentDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
     const currentHour = currentDate.toLocaleString('en-US', { hour: 'numeric' });
-    // const currentHour = '11 PM';
 
     if (data.sunrise.startsWith(0)) {
         sunrise = data.sunrise.slice(1);
@@ -392,23 +391,30 @@ function displayData(data) {
             dailyContainer.appendChild(dailyDiv);
         }
     } else if (forecastType === 'hourly') {
-        console.log(data.hourlyForecastArray);
-        const tempArray1 = [];
-        let temp_i = '';
-        for (let i = 0; i < 24; i++) {
-            const {hour} = data.hourlyForecastArray[i];
-            if (hour === currentHour) {
-                temp_i = i;
+        let finalHoursArray = [];
+
+        if (currentHour === '12 AM') {
+            finalHoursArray = data.hourlyForecastArray;
+            finalHoursArray.shift();
+            const tempItem = data.nextDayForecastArray[0];
+            finalHoursArray.push(tempItem);
+        } else if (currentHour === '11 PM') {
+            finalHoursArray = data.nextDayForecastArray;
+        } else {
+            const tempArray1 = [];
+            let temp_i = '';
+            for (let i = 0; i < 24; i++) {
+                const {hour} = data.hourlyForecastArray[i];
+                if (hour === currentHour) {
+                    temp_i = i;
+                }
+                if (temp_i && i > temp_i) {
+                    tempArray1.push(data.hourlyForecastArray[i]);
+                }
             }
-            if (temp_i && i > temp_i) {
-                tempArray1.push(data.hourlyForecastArray[i]);
-            }
+            const tempArray2 = data.nextDayForecastArray.slice(0, -tempArray1.length);
+            finalHoursArray = tempArray1.concat(tempArray2);
         }
-
-        const tempArray2 = data.nextDayForecastArray.slice(0, -tempArray1.length);
-        const combinedHoursArray = tempArray1.concat(tempArray2);
-
-        console.log(combinedHoursArray);
 
         for (let i = 0; i < 24; i++) {
             const hourlyDiv = document.createElement('div');
@@ -420,14 +426,14 @@ function displayData(data) {
             hourlyDiv.classList.add('hourly-div');
 
             if (unitType === 'far') {
-                hourlyTemp = combinedHoursArray[i].temp_f;
+                hourlyTemp = finalHoursArray[i].temp_f;
             } else if (unitType === 'cel') {
-                hourlyTemp = combinedHoursArray[i].temp_c;
+                hourlyTemp = finalHoursArray[i].temp_c;
             }
 
-            hourDisplay.textContent = combinedHoursArray[i].hour;
+            hourDisplay.textContent = finalHoursArray[i].hour;
             hourlyTempDisplay.textContent = `${hourlyTemp}°`;
-            hourlyIconDisplay.src = combinedHoursArray[i].icon;
+            hourlyIconDisplay.src = finalHoursArray[i].icon;
 
             hourlyDiv.appendChild(hourDisplay);
             hourlyDiv.appendChild(hourlyTempDisplay);
