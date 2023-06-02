@@ -25,7 +25,7 @@ const hourlyContainer = document.querySelector('.hourly-container');
 const dailyForecast = document.querySelector('.daily-forecast');
 const hourlyForecast = document.querySelector('.hourly-forecast');
 let unitType = 'far';
-let forecastType = 'hourly';
+let forecastType = 'daily';
 let temp = '';
 let feelsLike = '';
 let wind = '';
@@ -54,7 +54,7 @@ if (forecastType === 'hourly') {
 // Fetch weather data from weather API
 async function fetchData(location) {
     try {
-        const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=10`, {mode: 'cors'});
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=3`, {mode: 'cors'});
         const weatherData = await response.json();
         console.log(weatherData);
         return(weatherData);
@@ -92,7 +92,7 @@ function Data(data) {
 
     const dataList = data.forecast.forecastday;
     const dailyForecastArray = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 3; i++) {
         const forecastDay = new Date(dataList[i].date).toLocaleString('en-US', { weekday: 'long' });
         const highTemp_f = Math.round(dataList[i].day.maxtemp_f);
         const highTemp_c = Math.round(dataList[i].day.maxtemp_c);
@@ -353,7 +353,7 @@ function displayData(data) {
 
     // Display daily or hourly forecast data depending on selected button
     if (forecastType === 'daily') {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 3; i++) {
             const dailyDiv = document.createElement('div');
             const dayDisplay = document.createElement('div');
             const highTempDisplay = document.createElement('div');
@@ -436,8 +436,8 @@ function displayData(data) {
             hourlyIconDisplay.src = finalHoursArray[i].icon;
 
             hourlyDiv.appendChild(hourDisplay);
-            hourlyDiv.appendChild(hourlyTempDisplay);
             hourlyDiv.appendChild(hourlyIconDisplay);
+            hourlyDiv.appendChild(hourlyTempDisplay);
             hourlyContainer.appendChild(hourlyDiv);
         }
     }
@@ -481,16 +481,6 @@ submitBtn.addEventListener('click', (e) => {
 /* 
 TO DO
 
-add daily info
-
-    fetch required data
-
-    tie data to html elements or create html elements to display data
-
-    fix UI
-
-SEE IF HOURS WORK WITH 12AM
-
 handle errors 
 
     add error messages when an invalid location is searched
@@ -500,6 +490,8 @@ add loading icon
 maybe add local storage????
 
 maybe add a refresh button next to time????
+
+mobile view
 
 add footer
  */
