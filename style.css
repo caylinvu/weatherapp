@@ -230,21 +230,14 @@ button, input {
     display: none;
 }
 
+.hourly-container {
+    display: flex;
+    width: 500px;
+    overflow-x: scroll;
+    padding: 20px;
+    gap: 40px;
+}
+
 .hourly-div {
-    display: grid;
-    grid-template-columns: 150px 150px 150px;
-    align-items: center;
-    border-bottom: solid 1px var(--color4);
-}
-
-.hourly-div div {
-    padding-left: 50px;
-}
-
-.hourly-div img {
-    padding-left: 30px;
-}
-
-.hourly-div:last-child {
-    border-bottom: none;
+    text-align: center;
 }
