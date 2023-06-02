@@ -34,7 +34,7 @@ let wind = '';
 let vis = '';
 let mintemp = '';
 let maxtemp = '';
-let location = '';
+let currentLocation = '';
 let stateAbbr = '';
 let sunrise = '';
 let sunset = '';
@@ -58,7 +58,7 @@ async function fetchData(location) {
     try {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=3`, {mode: 'cors'});
         const weatherData = await response.json();
-        return(weatherData);
+        return weatherData;
     } catch (error) {
         mainContent.style.display = 'none';
         errorMsg.textContent = 'Error fetching data, please try again';
@@ -167,7 +167,7 @@ function getWeatherData(location) {
     fetchData(location)
         .then(response => {
             const currentData = new Data(response);
-            return(currentData);
+            return currentData;
         })
         .then(response => {
             displayData(response);
@@ -290,14 +290,14 @@ function displayData(data) {
     removeChildren(hourlyContainer);
 
     // Display current forecast data
-    if (unitType == 'far') {
+    if (unitType === 'far') {
         temp = data.temp_f;
         feelsLike = data.feelslike_f;
         maxtemp = data.maxtemp_f;
         mintemp = data.mintemp_f;
         vis = `${data.vis_miles  }m`;
         wind = `${data.wind_mph  }mph`;
-    } else if (unitType == 'cel') {
+    } else if (unitType === 'cel') {
         temp = data.temp_c;
         feelsLike = data.feelslike_c;
         maxtemp = data.maxtemp_c;
@@ -306,15 +306,15 @@ function displayData(data) {
         wind = `${data.wind_kph  }kph`;
     }
 
-    if (data.country == 'United States of America' || data.country == 'USA') {
+    if (data.country === 'United States of America' || data.country === 'USA') {
         stateAbbr = getStateAbbr(data.region);
-        if (stateAbbr == undefined) {
-            location = `${data.location}, United States`;
+        if (stateAbbr === undefined) {
+            currentLocation = `${data.location}, United States`;
         } else {
-            location = `${data.location}, ${stateAbbr}, United States`;
+            currentLocation = `${data.location}, ${stateAbbr}, United States`;
         }
     } else {
-        location = `${data.location}, ${data.country}`;
+        currentLocation = `${data.location}, ${data.country}`;
     }
 
     const currentDate = new Date(data.localTime);
@@ -333,7 +333,7 @@ function displayData(data) {
         sunset = data.sunset;
     }
 
-    locationDisplay.textContent = location;
+    locationDisplay.textContent = currentLocation;
     localTimeDisplay.textContent = formattedDate;
     iconDisplay.src = data.icon;
     tempDisplay.textContent = `${temp}°`;
