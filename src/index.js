@@ -58,7 +58,6 @@ async function fetchData(location) {
     try {
         const response = await fetch(`https://api.weatherapi.com/v1/current.json&forecast.json?key=cd77a577f4344b949c0205340231505&q=${location}&days=3`, {mode: 'cors'});
         const weatherData = await response.json();
-        console.log(weatherData);
         return(weatherData);
     } catch (error) {
         mainContent.style.display = 'none';
@@ -168,7 +167,6 @@ function getWeatherData(location) {
     fetchData(location)
         .then(response => {
             const currentData = new Data(response);
-            console.log(currentData);
             return(currentData);
         })
         .then(response => {
@@ -461,35 +459,4 @@ submitBtn.addEventListener('click', (e) => {
     }
 });
 
-// EVENT LISTENERS IF YOU WANT IT TO FETCH DATA EVERY TIME YOU TOGGLE UNITS
-// celBtn.addEventListener('click', () => {
-//     farBtn.classList.remove('selected');
-//     celBtn.classList.add('selected');
-//     unitType = 'cel';
-//     console.log(unitType);
-//     getWeatherData(locationDisplay.textContent);
-// });
-
-// farBtn.addEventListener('click', () => {
-//     celBtn.classList.remove('selected');
-//     farBtn.classList.add('selected');
-//     unitType = 'far';
-//     console.log(unitType);
-//     getWeatherData(locationDisplay.textContent);
-// });
-
-
-
-/* 
-TO DO
-
-add loading icon
-
-maybe add local storage????
-
-maybe add a refresh button next to time????
-
-mobile view
-
-add footer
- */
+// add footer

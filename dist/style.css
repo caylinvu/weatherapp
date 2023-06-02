@@ -248,3 +248,36 @@ button, input {
     text-align: center;
     color: rgb(255, 0, 0);
 }
+
+/* ----------MOBILE VIEW---------- */
+
+@media screen and (max-width: 800px) {
+    .header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .current-forecast {
+        flex-direction: column;
+        padding-top: 10px;
+        gap: 40px;
+    }
+
+    .hourly-container {
+        width: 350px;
+    }
+
+    .location {
+        font-size: 32px;
+    }
+
+    .temp-container {
+        font-size: 55px;
+    }
+
+    .forecast-title {
+        font-size: 28px;
+    }
+}
