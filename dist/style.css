@@ -241,3 +241,10 @@ button, input {
 .hourly-div {
     text-align: center;
 }
+
+/* ----------ERROR MESSAGE---------- */
+
+.error-msg {
+    text-align: center;
+    color: rgb(255, 0, 0);
+}

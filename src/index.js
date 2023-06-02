@@ -24,6 +24,8 @@ const dailyContainer = document.querySelector('.daily-container');
 const hourlyContainer = document.querySelector('.hourly-container');
 const dailyForecast = document.querySelector('.daily-forecast');
 const hourlyForecast = document.querySelector('.hourly-forecast');
+const mainContent = document.querySelector('.main-content');
+const errorMsg = document.querySelector('.error-msg');
 let unitType = 'far';
 let forecastType = 'daily';
 let temp = '';
@@ -59,7 +61,8 @@ async function fetchData(location) {
         console.log(weatherData);
         return(weatherData);
     } catch (error) {
-        console.error(error);
+        mainContent.style.display = 'none';
+        errorMsg.textContent = 'Error fetching data, please try again';
     }    
 }
 
@@ -175,7 +178,6 @@ function getWeatherData(location) {
                 farBtn.classList.remove('selected');
                 celBtn.classList.add('selected');
                 unitType = 'cel';
-                console.log(unitType);
                 displayData(response);
             });
             
@@ -183,7 +185,6 @@ function getWeatherData(location) {
                 celBtn.classList.remove('selected');
                 farBtn.classList.add('selected');
                 unitType = 'far';
-                console.log(unitType);
                 displayData(response);
             });
 
@@ -191,7 +192,6 @@ function getWeatherData(location) {
                 hourlyBtn.classList.remove('selected');
                 dailyBtn.classList.add('selected');
                 forecastType = 'daily';
-                console.log(forecastType);
 
                 hourlyForecast.style.display = 'none';
                 dailyForecast.style.display = 'block';
@@ -203,7 +203,6 @@ function getWeatherData(location) {
                 dailyBtn.classList.remove('selected');
                 hourlyBtn.classList.add('selected');
                 forecastType = 'hourly';
-                console.log(forecastType);
 
                 dailyForecast.style.display = 'none';
                 hourlyForecast.style.display = 'block';
@@ -212,7 +211,8 @@ function getWeatherData(location) {
             })
         })
         .catch(error => {
-            console.error(error)
+            mainContent.style.display = 'none';
+            errorMsg.textContent = 'Location not found, please enter a valid city name or zip code';
         }
     );
 }
@@ -453,6 +453,8 @@ submitBtn.addEventListener('click', (e) => {
     if (!searchForm.checkValidity()) {
         searchForm.reportValidity();
     } else {
+        mainContent.style.display = 'flex';
+        errorMsg.textContent = '';
         getWeatherData(searchInput.value);
         searchInput.value = '';
         e.preventDefault();
@@ -480,10 +482,6 @@ submitBtn.addEventListener('click', (e) => {
 
 /* 
 TO DO
-
-handle errors 
-
-    add error messages when an invalid location is searched
 
 add loading icon
 
