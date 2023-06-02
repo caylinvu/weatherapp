@@ -458,5 +458,3 @@ submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
     }
 });
-
-// add footer
